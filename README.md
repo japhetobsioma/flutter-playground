@@ -1,2 +1,2 @@
 # flutter-playground
- Collection of Flutter Applications
+ Random Flutter Applications
