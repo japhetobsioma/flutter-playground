@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'database_helper.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(App());
 
-class MyApp extends StatelessWidget {
+/* class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -155,5 +155,60 @@ class MyHomePage extends StatelessWidget {
     final currentTime = await dbHelper.currentTime();
     print('query current time:');
     currentTime.forEach((row) => print(row));
+  }
+} */
+
+class App extends StatefulWidget {
+  const App();
+
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  final dbHelper = DatabaseHelper.instance;
+
+  List<Map<String, dynamic>> items = [{}];
+
+  void _query() async {
+    final allRows = await dbHelper.queryAllRows();
+    setState(() {
+      items = allRows;
+    });
+  }
+
+  @override
+  void initState() {
+    _query();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('SQFlite Demo'),
+        ),
+        body: ListView.builder(
+          itemCount: items.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Text('_id: ${items[index]['_id']}'),
+              subtitle: Text('name: ${items[index]['name']}'
+                  '\nage: ${items[index]['age']}'
+                  '\ndate: ${items[index]['date']}'),
+            );
+          },
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          child: Icon(
+            Icons.local_drink,
+          ),
+        ),
+      ),
+    );
   }
 }
