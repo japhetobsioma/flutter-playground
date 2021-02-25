@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:theme_state/providers/themeMode_provider.dart';
 
-import 'providers/theme_mode_provider.dart';
-import 'screens/home_page.dart';
+import 'screens/home.dart';
 
 void main() {
   runApp(
@@ -17,16 +17,34 @@ class MyApp extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = useProvider(themeModeProvider.state).themeMode;
+    final themeModeModel = useProvider(themeModeProvider.state);
     const title = 'Theme State';
 
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(brightness: Brightness.light),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      themeMode: themeMode,
-      title: title,
-      home: const HomePage(),
+    return themeModeModel.when(
+      data: (value) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(brightness: Brightness.light),
+        darkTheme: ThemeData(brightness: Brightness.dark),
+        themeMode: value,
+        title: title,
+        home: HomeScreen(),
+      ),
+      loading: () => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Center(
+            child: const CircularProgressIndicator(),
+          ),
+        ),
+      ),
+      error: (e, s) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          body: Center(
+            child: Text('Error: $e, Stacktrace: $s'),
+          ),
+        ),
+      ),
     );
   }
 }

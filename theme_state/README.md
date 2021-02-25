@@ -1,6 +1,6 @@
 # theme_state
 
-A Flutter application that will change its theme dynamically.
+A Flutter application that can change its themes dynamically using Riverpod and Shared preferences.
 
 ## APK
 
@@ -10,6 +10,7 @@ A Flutter application that will change its theme dynamically.
 
 - Pedantic
 - Riverpod
+- Shared preferences
 
 ## Preview
 
