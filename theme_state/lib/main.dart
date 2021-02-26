@@ -18,33 +18,50 @@ class MyApp extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final themeModeModel = useProvider(themeModeProvider.state);
-    const title = 'Theme State';
 
     return themeModeModel.when(
-      data: (value) => MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(brightness: Brightness.light),
-        darkTheme: ThemeData(brightness: Brightness.dark),
+      data: (value) => BuildMaterialApp(
         themeMode: value,
-        title: title,
         home: HomeScreen(),
       ),
-      loading: () => MaterialApp(
-        debugShowCheckedModeBanner: false,
+      loading: () => BuildMaterialApp(
         home: Scaffold(
           body: Center(
             child: const CircularProgressIndicator(),
           ),
         ),
       ),
-      error: (e, s) => MaterialApp(
-        debugShowCheckedModeBanner: false,
+      error: (e, s) => BuildMaterialApp(
         home: Scaffold(
           body: Center(
             child: Text('Error: $e, Stacktrace: $s'),
           ),
         ),
       ),
+    );
+  }
+}
+
+class BuildMaterialApp extends HookWidget {
+  const BuildMaterialApp({
+    this.themeMode = ThemeMode.system,
+    this.home,
+  });
+
+  final ThemeMode themeMode;
+  final Widget home;
+
+  @override
+  Widget build(BuildContext context) {
+    const title = 'Theme State';
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData.light(),
+      darkTheme: ThemeData.dark(),
+      themeMode: themeMode,
+      title: title,
+      home: home,
     );
   }
 }

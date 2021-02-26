@@ -10,7 +10,6 @@ class HomeScreen extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final themeModeModel = useProvider(themeModeProvider.state).data.value;
     const tooltip = 'Random Theme';
 
     return Scaffold(
@@ -19,29 +18,17 @@ class HomeScreen extends HookWidget {
       ),
       body: Column(
         children: [
-          RadioListTile(
-            title: const Text('Light'),
-            value: ThemeMode.light,
-            groupValue: themeModeModel,
-            onChanged: (value) {
-              context.read(themeModeProvider).updateThemeMode(value);
-            },
-          ),
-          RadioListTile(
-            title: const Text('Dark'),
-            value: ThemeMode.dark,
-            groupValue: themeModeModel,
-            onChanged: (value) {
-              context.read(themeModeProvider).updateThemeMode(value);
-            },
-          ),
-          RadioListTile(
+          BuildRadioListTile(
             title: const Text('System'),
             value: ThemeMode.system,
-            groupValue: themeModeModel,
-            onChanged: (value) {
-              context.read(themeModeProvider).updateThemeMode(value);
-            },
+          ),
+          BuildRadioListTile(
+            title: const Text('Light'),
+            value: ThemeMode.light,
+          ),
+          BuildRadioListTile(
+            title: const Text('Dark'),
+            value: ThemeMode.dark,
           ),
         ],
       ),
@@ -52,6 +39,30 @@ class HomeScreen extends HookWidget {
         },
         tooltip: tooltip,
       ),
+    );
+  }
+}
+
+class BuildRadioListTile extends HookWidget {
+  const BuildRadioListTile({
+    this.title,
+    this.value,
+  });
+
+  final Widget title;
+  final ThemeMode value;
+
+  @override
+  Widget build(BuildContext context) {
+    final themeModeModel = useProvider(themeModeProvider.state).data.value;
+
+    return RadioListTile(
+      title: title,
+      value: value,
+      groupValue: themeModeModel,
+      onChanged: (value) {
+        context.read(themeModeProvider).updateThemeMode(value);
+      },
     );
   }
 }

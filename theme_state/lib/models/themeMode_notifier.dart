@@ -32,6 +32,7 @@ class ThemeModeNotifier extends StateNotifier<AsyncValue<ThemeMode>> {
 
   Future<void> randomThemeMode() async {
     final randomNumber = Random().nextInt(3);
+    print(randomNumber);
 
     await updateThemeMode(ThemeMode.values[randomNumber]);
   }
