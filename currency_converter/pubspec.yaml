@@ -3,7 +3,7 @@ description: Yet another currency converter. For my mobile application assignmen
 
 publish_to: "none"
 
-version: 0.1.1
+version: 0.2.0
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,6 +15,14 @@ dependencies:
   cupertino_icons: ^1.0.0
 
   pedantic: ^1.9.2
+  flutter_dotenv: ^3.1.0
+  flutter_hooks: ^0.15.0
+  hooks_riverpod: ^0.12.4
+  http: ^0.12.2
+  intl: ^0.16.1
+  url_launcher: ^5.7.10
+  flutter_speed_dial: ^2.1.1
+  shared_preferences: ^0.5.12+4
 
 dev_dependencies:
   flutter_test:
@@ -22,3 +30,7 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets: 
+    - .env
+    - assets/
